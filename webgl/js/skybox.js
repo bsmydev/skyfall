@@ -1,6 +1,6 @@
 SKY.Skybox = function()
 {
-	var texture = new THREE.ImageUtils.loadTextureCube( [ 'img/px.png', 'img/nx.png','img/py.png','img/ny.png','img/pz.png','img/nz.png' ] ),
+	var texture = new THREE.ImageUtils.loadTextureCube( [ 'img/nx.png', 'img/px.png','img/py.png','img/ny.png','img/pz.png','img/nz.png' ] ),
 		shader = THREE.ShaderLib[ "cube" ];
 
 	shader.uniforms[ "tCube" ].value = texture;
@@ -17,11 +17,6 @@ SKY.Skybox = function()
 
 		} )
 	);
-
-	// THREE.Mesh.call( this,
-	// 	new THREE.CubeGeometry( 1000, 1000, 1000 ),
-	// 	new THREE.MeshBasicMaterial( { color : 0xff6600 } )
-	// );
 };
 
 SKY.Skybox.prototype = new THREE.Mesh();

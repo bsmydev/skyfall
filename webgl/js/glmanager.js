@@ -5,23 +5,28 @@ SKY.GLManager = ( function()
 		_scene = null,
 		_camera = null,
 		_skybox = null,
-		_controls = null,
+		_airplane = null,
+		_light = null,
+		_ambient = null,
+		_environment = null,
+		_meteorite = null;
 
 		_animate = function()
 		{
 			var i = 0,
 				child = null;
-			
-			for ( ; i < _scene.children.length; i++ )
+
+			if ( _airplane.updateControls !== undefined )
 			{
-				child = _scene.children[ i ];
-				if ( child.update )
-				{
-					child.update();
-				}
+				_airplane.updateControls();
+				//_environment.position.add( new THREE.Vector3( 0, -1, 0 ).multiplyScalar( _environment.fallingSpeed ) );
+				_environment.fall();
+				_environment.position.add( _airplane.direction.clone().multiplyScalar( _airplane.speed ) );
 			}
 
-			_camera.rotation.y += Math.PI / 4 * 0.01;
+			//_meteorite.material.uniforms.time.value = Math.floor( ( new Date() ).getTime() );
+			_meteorite.material.needsUpdate = true;
+
 			_renderer.clear();
 			_composer.render();
 
@@ -41,14 +46,38 @@ SKY.GLManager = ( function()
 
         	_camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
         	_camera.position.y = 0;
-        	_camera.position.z = 0;
+        	_camera.position.z = -100;
         	_camera.lookAt( new THREE.Vector3( 0, 0, 1 ) );
         	_camera.up = new THREE.Vector3( 0, 1, 0 );
 
-   			//_controls = new THREE.FlyControls( _camera );
+        	// _ambient = new THREE.AmbientLight( 0xcccccc );
+        	// _scene.add( _ambient );
+
+        	_light = new THREE.DirectionalLight( 0xffffff, 0.5 );
+        	_light.position = new THREE.Vector3( 0, 1, 1 );
+        	_scene.add( _light );
 
         	_skybox = new SKY.Skybox();
         	_scene.add( _skybox );
+
+        	_environment = new SKY.Environment();
+        	_environment.position = new THREE.Vector3( 0, 0, -5000 );
+        	_scene.add( _environment );
+
+        	_meteorite = new SKY.Meteorite() 
+        	_scene.add( _meteorite );
+
+        	_airplane = new SKY.Airplane( function() {
+
+				_scene.add( _airplane );
+				//_camera = _airplane.camera;
+				_composer.passes[ 0 ].camera = _airplane.camera;
+        	} );
+        	
+        	
+        	_airplane.lookAt( new THREE.Vector3( 1, 0, 0 ) );
+
+        	SKY.Controls.enable();
 
         	/*
         	*	Setup rendering
