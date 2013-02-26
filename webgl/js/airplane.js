@@ -1,29 +1,13 @@
 SKY.Airplane = function( callback )
 {
-	var loader = new THREE.JSONLoader(),
-		geometry = null,
-		material = null,
-		self = this;
-
-	loader.load( 'models/plane.js', function ( loadedGeometry )
-	{
-
-		geometry = loadedGeometry;
+	var geometry = SKY.Geometries.plane,
 		material = new THREE.MeshPhongMaterial( { color : 0xffffff } );
 
-		THREE.Mesh.call( self, geometry, material );
-		SKY.FlyableObject.call( self );
+	THREE.Mesh.call( this, geometry, material );
+	SKY.FlyableObject.call( this );
 
-		self.camera.position = new THREE.Vector3( 0, 25, 150 );
-		self.speed = 10;
-
-		if ( callback )
-		{
-			callback();
-		}
-
-	} );
-
+	this.camera.position = new THREE.Vector3( 0, 25, 150 );
+	this.speed = 10;
 };
 
 
