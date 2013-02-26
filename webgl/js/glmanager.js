@@ -12,7 +12,7 @@ SKY.GLManager = ( function()
 		_loader = new THREE.JSONLoader(),
 		_models = [ 
 			{
-				url : 'models/rock1.js',
+				url : 'models/meteorite.js',
 				label : 'meteorite'
 			},
 			{
