@@ -3,6 +3,7 @@ SKY.FlyableObject = function() {
 	this.speed = 5;
 
 	this.direction = new THREE.Vector3( 0, 0, 1 );
+	this.lookAt( this.direction );
 
 	this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 100000);
 	this.add( this.camera );

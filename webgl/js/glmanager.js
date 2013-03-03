@@ -48,13 +48,10 @@ SKY.GLManager = ( function()
 			var i = 0,
 				child = null;
 
-			if ( _airplane.updateControls !== undefined )
-			{
-				_airplane.updateControls();
+			_airplane.updateControls();
 				//_environment.position.add( new THREE.Vector3( 0, -1, 0 ).multiplyScalar( _environment.fallingSpeed ) );
-				_environment.fall();
-				_environment.position.add( _airplane.direction.clone().multiplyScalar( _airplane.speed ) );
-			}
+			_environment.fall( _airplane.direction.clone().multiplyScalar( _airplane.speed ) );
+
 
 			_renderer.clear();
 			_composer.render();
@@ -103,6 +100,7 @@ SKY.GLManager = ( function()
         	_scene.add( _environment );
 
         	_airplane = new SKY.Airplane();
+        	_airplane.lookAt( new THREE.Vector3( 0, 0, 1 ) );
         	_scene.add( _airplane );
 			_camera = _airplane.camera;
         	

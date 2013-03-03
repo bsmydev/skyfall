@@ -44,20 +44,48 @@ SKY.Environment = function()
 SKY.Environment.prototype = new THREE.Object3D();
 
 
-SKY.Environment.prototype.fall = function()
+SKY.Environment.prototype.fall = function( direction )
 {
 	var i = 0,
-		cube = null;
+		object = null,
+		fall = null;
 
 	/*
 	 *	Objects shall fall with different speed 
 	 *	otherwise it looks like the plane is going up
-	 */
+	 */ 
 
 	for ( ; i < this.cubes.children.length; i++ )
 	{
-		cube = this.cubes.children[ i ];
-		cube.position.add( new THREE.Vector3( 0, - cube.weight, 0 ) );
+		object = this.cubes.children[ i ];
+
+		if ( object.position.length() < 10000 )
+		{
+			fall = direction.clone().add( new THREE.Vector3( 0, - object.weight, 0 ) );
+			object.position.add( fall );
+		}
+		else
+		{
+			object.position = new THREE.Vector3( 10000 * Math.random() - 5000, 10000 * Math.random(), 10000 * Math.random() - 5000 );
+		}
+	}
+
+
+	/*
+	 *	Update clouds
+	 */
+	for ( i = 0; i < this.clouds.children.length; i++ )
+	{
+		object = this.clouds.children[ i ];
+
+		if ( object.position.length() < 10000 )
+		{
+			object.position.add( direction );
+		}
+		else
+		{
+			object.position = new THREE.Vector3( 10000 * Math.random() - 5000, 500 * Math.random(), 10000 * Math.random() );
+		}
 	}
 };
 
