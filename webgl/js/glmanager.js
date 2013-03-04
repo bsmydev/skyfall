@@ -48,8 +48,7 @@ SKY.GLManager = ( function()
 			var i = 0,
 				child = null;
 
-			_airplane.updateControls();
-				//_environment.position.add( new THREE.Vector3( 0, -1, 0 ).multiplyScalar( _environment.fallingSpeed ) );
+			_airplane.animate();
 			_environment.fall( _airplane.direction.clone().multiplyScalar( _airplane.speed ) );
 
 
@@ -96,16 +95,12 @@ SKY.GLManager = ( function()
         	_scene.add( _skybox );
 
         	_environment = new SKY.Environment();
-        	_environment.position = new THREE.Vector3( 0, 0, -5000 );
         	_scene.add( _environment );
 
         	_airplane = new SKY.Airplane();
         	_airplane.lookAt( new THREE.Vector3( 0, 0, 1 ) );
         	_scene.add( _airplane );
 			_camera = _airplane.camera;
-        	
-        	
-        	_airplane.lookAt( new THREE.Vector3( 1, 0, 0 ) );
 
         	SKY.Controls.enable();
 

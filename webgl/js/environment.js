@@ -16,7 +16,7 @@ SKY.Environment = function()
 	{
 		object = new THREE.Mesh( geometry, cubeMaterial );
 		object.position = new THREE.Vector3( 10000 * Math.random() - 5000, 10000 * Math.random(), 10000 * Math.random() - 5000 );
-		object.weight = Math.floor( 10 * Math.random() );
+		object.weight = Math.floor( 1 + 10 * Math.random() );
 		this.cubes.add( object );
 	}
 
@@ -48,7 +48,8 @@ SKY.Environment.prototype.fall = function( direction )
 {
 	var i = 0,
 		object = null,
-		fall = null;
+		fall = null,
+		position = null;
 
 	/*
 	 *	Objects shall fall with different speed 
@@ -59,14 +60,17 @@ SKY.Environment.prototype.fall = function( direction )
 	{
 		object = this.cubes.children[ i ];
 
-		if ( object.position.length() < 10000 )
+		if ( object.position.length() < 5000 )
 		{
 			fall = direction.clone().add( new THREE.Vector3( 0, - object.weight, 0 ) );
 			object.position.add( fall );
 		}
 		else
 		{
-			object.position = new THREE.Vector3( 10000 * Math.random() - 5000, 10000 * Math.random(), 10000 * Math.random() - 5000 );
+			position = direction.clone().normalize().negate().setLength( 5000 * Math.random() );
+			position.applyMatrix4( new THREE.Matrix4().makeRotationY( THREE.Math.degToRad( 180 * Math.random() - 90 ) ) );
+			position.y += 500;
+			object.position = position.clone();
 		}
 	}
 
@@ -78,7 +82,7 @@ SKY.Environment.prototype.fall = function( direction )
 	{
 		object = this.clouds.children[ i ];
 
-		if ( object.position.length() < 10000 )
+		if ( object.position.length() < 5000 )
 		{
 			object.position.add( direction );
 		}

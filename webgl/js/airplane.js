@@ -12,3 +12,18 @@ SKY.Airplane = function( callback )
 
 
 SKY.Airplane.prototype = new THREE.Mesh();
+
+
+SKY.Airplane.prototype.animate = function()
+{
+	this.updateControls();
+
+	if ( SKY.Controls.SPACE )
+	{
+		this.speed = 20;
+	}
+	else
+	{
+		this.speed = 10;
+	}
+};
