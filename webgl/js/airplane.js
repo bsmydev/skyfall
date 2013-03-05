@@ -8,6 +8,17 @@ SKY.Airplane = function( callback )
 
 	this.camera.position = new THREE.Vector3( 0, 25, 150 );
 	this.speed = 10;
+
+	/*
+	 *	Collision box
+	 */
+	geometry = new THREE.CubeGeometry( 75, 25, 50 );
+	material = new THREE.MeshBasicMaterial( { color : 0xff0000, wireframe : true, opacity : 0.0 } );
+	this.collisionBox = new THREE.Mesh( geometry, material );
+
+	this.collisionBox.position = new THREE.Vector3( 0, 15, 0 );
+	SKY.Collidable.call( this.collisionBox );
+	this.add( this.collisionBox );
 };
 
 
@@ -20,10 +31,12 @@ SKY.Airplane.prototype.animate = function()
 
 	if ( SKY.Controls.SPACE )
 	{
-		this.speed = 20;
+		this.speed = 30;
+		SKY.GLManager.enableMotionBlur();
 	}
 	else
 	{
 		this.speed = 10;
+		SKY.GLManager.disableMotionBlur();
 	}
 };

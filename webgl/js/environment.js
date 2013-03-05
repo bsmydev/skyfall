@@ -14,7 +14,7 @@ SKY.Environment = function()
 	this.add( this.cubes );
 	for ( ; i < 1000; i++ )
 	{
-		object = new THREE.Mesh( geometry, cubeMaterial );
+		object = new SKY.Meteorite();
 		object.position = new THREE.Vector3( 10000 * Math.random() - 5000, 10000 * Math.random(), 10000 * Math.random() - 5000 );
 		object.weight = Math.floor( 1 + 10 * Math.random() );
 		this.cubes.add( object );
@@ -29,12 +29,12 @@ SKY.Environment = function()
 	// 	this.clouds.add( object );
 	// }
 
-	for ( i = 0; i < 100; i++ )
-	{
-		object = new SKY.Meteorite();
-		object.position = new THREE.Vector3( 10000 * Math.random() - 5000, 500 * Math.random() - 250, 10000 * Math.random() - 5000 );
-		this.clouds.add( object );				
-	}
+	// for ( i = 0; i < 100; i++ )
+	// {
+	// 	object = new SKY.Meteorite();
+	// 	object.position = new THREE.Vector3( 10000 * Math.random() - 5000, 500 * Math.random() - 250, 10000 * Math.random() - 5000 );
+	// 	this.clouds.add( object );				
+	// }
 
 	this.fallingSpeed = 5;
 

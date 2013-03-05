@@ -12,7 +12,7 @@ SKY.GLManager = ( function()
 		_loader = new THREE.JSONLoader(),
 		_models = [ 
 			{
-				url : 'models/meteorite.js',
+				url : 'models/rock.js',
 				label : 'meteorite'
 			},
 			{
@@ -25,7 +25,7 @@ SKY.GLManager = ( function()
 		{
 			_loader.load( _models[ 0 ].url, function ( geometry )
 			{
-				console.log( _models[ 0 ] + ' loaded!' );
+				console.log( _models[ 0 ].label + ' geometry loaded!' );
 				
 				if ( SKY.Geometries === undefined ){ SKY.Geometries = {}; }
 				SKY.Geometries[ _models[ 0 ].label ] = geometry;
@@ -49,6 +49,10 @@ SKY.GLManager = ( function()
 				child = null;
 
 			_airplane.animate();
+			_airplane.collisionBox.detectCollision( _environment.cubes.children, function ( intersection )
+				{
+					console.log( intersection );
+				} );
 			_environment.fall( _airplane.direction.clone().multiplyScalar( _airplane.speed ) );
 
 
@@ -56,7 +60,30 @@ SKY.GLManager = ( function()
 			_composer.render();
 
 			requestAnimationFrame( _animate );
-		};
+		},
+
+	    addPass = function( pass )
+	    {
+	        if ( _composer.index === undefined ){ _composer.index = 1; }
+
+	        _composer.passes.splice( _composer.index, 0, pass );
+	        _composer.index++;
+	    },
+
+	    removePass = function( pass )
+	    {
+	        var i = 0;
+
+	        for ( ; i < _composer.passes.length; i++ )
+	        {
+	            if ( pass === _composer.passes[ i ] )
+	            {
+	                _composer.passes.splice( i, 1 );
+	                break;
+	            }            
+	        }
+	        _composer.index--;
+	    };
 
 	return {
 
@@ -81,12 +108,6 @@ SKY.GLManager = ( function()
 
         	_scene = new THREE.Scene();
 
-        	_camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
-        	_camera.position.y = 0;
-        	_camera.position.z = -100;
-        	_camera.lookAt( new THREE.Vector3( 0, 0, 1 ) );
-        	_camera.up = new THREE.Vector3( 0, 1, 0 );
-
         	_light = new THREE.DirectionalLight( 0xffffff, 0.5 );
         	_light.position = new THREE.Vector3( 0, 1, 1 );
         	_scene.add( _light );
@@ -98,7 +119,7 @@ SKY.GLManager = ( function()
         	_scene.add( _environment );
 
         	_airplane = new SKY.Airplane();
-        	_airplane.lookAt( new THREE.Vector3( 0, 0, 1 ) );
+        	_airplane.lookAt( new THREE.Vector3( 0, 0, -1 ) );
         	_scene.add( _airplane );
 			_camera = _airplane.camera;
 
@@ -120,6 +141,12 @@ SKY.GLManager = ( function()
 
 			_composer.addPass( new THREE.RenderPass( _scene, _camera ) );
 
+			_composer.savePass = new THREE.SavePass();
+
+			_composer.blendPass = new THREE.ShaderPass( THREE.BlendShader, "tDiffuse1" );
+			_composer.blendPass.uniforms.tDiffuse2.value = _composer.savePass.renderTarget;
+			_composer.blendPass.uniforms.mixRatio.value = 0.65;
+
 			pass = new THREE.ShaderPass( THREE.CopyShader );
 			pass.renderToScreen = true;
 			_composer.addPass( pass );
@@ -130,8 +157,27 @@ SKY.GLManager = ( function()
 		configure : function()
 		{
 
-		}
+		},
 
+		enableMotionBlur : function()
+		{
+			if ( ! _composer.blur )
+			{
+				addPass( _composer.blendPass );
+				addPass( _composer.savePass );
+				_composer.blur = true;
+			}
+		},
+
+		disableMotionBlur : function()
+		{
+			if ( _composer.blur )
+			{
+				removePass( _composer.blendPass );
+				removePass( _composer.savePass );
+				_composer.blur = false;
+			}
+		}
 	}
 
 } )();
