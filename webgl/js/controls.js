@@ -1,6 +1,6 @@
 SKY.Controls = ( function()
 {
-	var UP_KEY = 38, DOWN_KEY = 40, LEFT_KEY = 37, RIGHT_KEY = 39, SPACE_KEY = 32;
+	var UP_KEY = 38, DOWN_KEY = 40, LEFT_KEY = 37, RIGHT_KEY = 39, SPACE_KEY = 32, ALT_KEY = 18;
 
 	return {
 
@@ -9,6 +9,7 @@ SKY.Controls = ( function()
 		LEFT : false,
 		RIGHT : false,
 		SPACE : false,
+		ALT : false,
 
 		enable : function()
 		{
@@ -28,6 +29,7 @@ SKY.Controls = ( function()
 					case LEFT_KEY  : self.LEFT = true; break;
 					case RIGHT_KEY : self.RIGHT = true; break;
 					case SPACE_KEY : self.SPACE = true; break;
+					case ALT_KEY   : self.ALT = true; break;
 				}
 
 			};
@@ -46,6 +48,7 @@ SKY.Controls = ( function()
 					case LEFT_KEY  : self.LEFT = false; break;
 					case RIGHT_KEY : self.RIGHT = false; break;
 					case SPACE_KEY : self.SPACE = false; break;
+					case ALT_KEY   : self.ALT = false; break;
 				}
 
 			};

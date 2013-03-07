@@ -1,7 +1,8 @@
-SKY.Airplane = function( callback )
+SKY.Airplane = function( parameters )
 {
 	var geometry = SKY.Geometries.plane,
-		material = new THREE.MeshPhongMaterial( { color : 0xffffff } );
+		material = new THREE.MeshPhongMaterial( { color : 0xffffff } ),
+		parameters = parameters || {};
 
 	THREE.Mesh.call( this, geometry, material );
 	SKY.FlyableObject.call( this );
@@ -19,6 +20,8 @@ SKY.Airplane = function( callback )
 	this.collisionBox.position = new THREE.Vector3( 0, 15, 0 );
 	SKY.Collidable.call( this.collisionBox );
 	this.add( this.collisionBox );
+
+	this.collidables = parameters.collidables !== undefined ? parameters.collidables : [];
 };
 
 
@@ -27,16 +30,35 @@ SKY.Airplane.prototype = new THREE.Mesh();
 
 SKY.Airplane.prototype.animate = function()
 {
+	/* Rotate airplane */
 	this.updateControls();
 
-	if ( SKY.Controls.SPACE )
+	/* Detect collisions */
+	this.collisionBox.detectCollision( this.collidables, function ( intersection )
 	{
-		this.speed = 30;
-		SKY.GLManager.enableMotionBlur();
+		console.log( intersection );
+	} );
+
+	// if ( SKY.Controls.SPACE )
+	// {
+	// 	this.speed = 20;
+	// 	SKY.GLManager.enableMotionBlur();
+	// }
+	// else
+	// {
+	// 	this.speed = 10;
+	// 	SKY.GLManager.disableMotionBlur();
+	// }
+
+	if ( SKY.Controls.ALT )
+	{
+		SKY.Clock.setSpeed( 0.25 );
+		SKY.blur = true;
 	}
 	else
 	{
-		this.speed = 10;
-		SKY.GLManager.disableMotionBlur();
-	}
+		SKY.Clock.setSpeed( 1 );
+		SKY.blur = false;
+	}	
+
 };
