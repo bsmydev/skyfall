@@ -8,7 +8,7 @@ SKY.Airplane = function( parameters )
 	SKY.FlyableObject.call( this );
 
 	this.camera.position = new THREE.Vector3( 0, 25, 150 );
-	this.speed = 10;
+	
 
 	/*
 	 *	Collision box
@@ -22,6 +22,19 @@ SKY.Airplane = function( parameters )
 	this.add( this.collisionBox );
 
 	this.collidables = parameters.collidables !== undefined ? parameters.collidables : [];
+
+	this.speed = 10;
+
+	/* Speed related values */
+	this._minSpeed = 10.0;
+	this._maxSpeed = 30.0;
+
+	this._acceleration = 4.0;
+	this._deceleration = 4.0;
+
+	this._accelerating = false;
+	this._decelerating = false;
+
 };
 
 
@@ -30,27 +43,25 @@ SKY.Airplane.prototype = new THREE.Mesh();
 
 SKY.Airplane.prototype.animate = function()
 {
+	var speed = this.speed;
+
 	/* Rotate airplane */
 	this.updateControls();
 
-	/* Detect collisions */
-	this.collisionBox.detectCollision( this.collidables, function ( intersection )
+
+	if ( SKY.Controls.SPACE )
 	{
-		console.log( intersection );
-	} );
+		this._accelerating = true;
+		SKY.blur = true;
+	}
+	else
+	{
+		this._accelerating = false;
+		this._decelerating = true;
+		SKY.blur = false;
+	}	
 
-	// if ( SKY.Controls.SPACE )
-	// {
-	// 	this.speed = 20;
-	// 	SKY.GLManager.enableMotionBlur();
-	// }
-	// else
-	// {
-	// 	this.speed = 10;
-	// 	SKY.GLManager.disableMotionBlur();
-	// }
-
-	if ( SKY.Controls.ALT )
+	/*if ( SKY.Controls.ALT )
 	{
 		SKY.Clock.setSpeed( 0.25 );
 		SKY.blur = true;
@@ -59,6 +70,60 @@ SKY.Airplane.prototype.animate = function()
 	{
 		SKY.Clock.setSpeed( 1 );
 		SKY.blur = false;
-	}	
+	}*/
+
+
+	
+	/*
+	 *	Calculate airplane speed
+	 */
+
+
+	if ( this._accelerating )
+	{
+		speed += speed * this._acceleration * 0.01;
+		if ( speed < this._maxSpeed )
+		{
+			this.speed = speed;
+		}
+		else
+		{
+			this._accelerating = false;
+		}
+	}
+	else if ( this._decelerating )
+	{
+		speed -= speed * this._deceleration * 0.01;
+		if ( speed > this._minSpeed )
+		{
+			this.speed = speed;
+		}
+		else
+		{
+			this._decelerating = false;
+		}
+	}
+
+	/*
+	 *	Update camera position according to speed
+	 */
+
+	this.camera.position.z = this.speed * 150 / this._minSpeed;
+
+
+	/* 
+	 *	Update renderer according to speed
+	 */
+	 if ( this._accelerating || this._decelerating )
+	 {
+	 	SKY.blur = true;
+	 }
+
+
+	/* Detect collisions */
+	this.collisionBox.detectCollision( this.collidables, function ( intersection )
+	{
+		console.log( intersection );
+	} );
 
 };
