@@ -1,6 +1,6 @@
 SKY.Collidable = function()
 {
-	this.perimeter = 500;
+	this.perimeter = 200;
 
 	this.detectCollision = function( collidables, callback )
 	{
@@ -37,6 +37,7 @@ SKY.Collidable = function()
 					if ( intersections[ j ].distance < vertex.length() )
 					{
 						callback( intersections[ j ] );
+						return;
 					}
 				}	
 			}

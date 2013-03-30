@@ -50,7 +50,7 @@ SKY.GLManager = ( function()
 
 			_airplane.animate();
 			
-			_environment.fall( _airplane.direction.clone().multiplyScalar( _airplane.speed * SKY.Clock.speed() ) );
+			_environment.update( _airplane.direction.clone().multiplyScalar( _airplane.speed * SKY.Clock.speed() ) );
 
 
 			_renderer.render();
@@ -80,6 +80,8 @@ SKY.GLManager = ( function()
 			*/
 
         	_scene = new THREE.Scene();
+        	SKY.App.scene = _scene;
+
 
         	_light = new THREE.DirectionalLight( 0xffffff, 0.5 );
         	_light.position = new THREE.Vector3( 0, 1, 1 );
@@ -90,6 +92,7 @@ SKY.GLManager = ( function()
 
         	_environment = new SKY.Environment();
         	_scene.add( _environment );
+        	SKY.App.environment = _environment;
 
         	_airplane = new SKY.Airplane( { collidables : _environment.asteroids.children } );
         	_airplane.lookAt( new THREE.Vector3( 0, 0, -1 ) );
@@ -112,7 +115,8 @@ SKY.GLManager = ( function()
 		configure : function()
 		{
 
-		}
+		},
+
 	}
 
 } )();

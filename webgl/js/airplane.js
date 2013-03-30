@@ -49,7 +49,13 @@ SKY.Airplane.prototype.animate = function()
 	this.updateControls();
 
 
+	/* Fire objects */
 	if ( SKY.Controls.SPACE )
+	{
+		this.fire();
+	}
+
+	if ( SKY.Controls.MAJ )
 	{
 		this._accelerating = true;
 		SKY.blur = true;
@@ -126,4 +132,14 @@ SKY.Airplane.prototype.animate = function()
 		console.log( intersection );
 	} );
 
+};
+
+SKY.Airplane.prototype.fire = function()
+{
+	SKY.App.environment.fireables.add( new SKY.Missile( {
+
+		speed : this.speed,
+		direction : this.direction.clone().negate()
+
+	} ) );
 };

@@ -20,6 +20,9 @@ SKY.Environment = function()
 		this.asteroids.add( object );
 	}
 
+	this.fireables = new THREE.Object3D();
+	this.add( this.fireables );
+
 };
 
 SKY.Environment.prototype = new THREE.Object3D();
@@ -58,7 +61,38 @@ SKY.Environment.prototype.fall = function( direction )
 };
 
 
-SKY.Environment.prototype.update = function()
+SKY.Environment.prototype.update = function( direction )
 {
-	this.fall();
+	this.fall( direction );
+	this.updateFireables( direction );
+};
+
+
+SKY.Environment.prototype.updateFireables = function( direction )
+{
+	var i = 0,
+		object = null,
+		self = this;
+
+	for ( ; i < this.fireables.children.length; i++ )
+	{
+		object = this.fireables.children[ i ];
+		object.update();
+
+		if ( object.position.length() < 5000 )
+		{
+			object.position.add( direction.clone() );
+			object.detectCollision( this.asteroids.children, function ( intersection )
+			{
+				self.asteroids.remove( intersection.object );
+				self.fireables.remove( object );
+				i--;
+			} );
+		}
+		else
+		{
+			this.fireables.remove( object );
+			i--;
+		}
+	}
 };
