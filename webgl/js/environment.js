@@ -28,13 +28,19 @@ SKY.Environment = function()
 SKY.Environment.prototype = new THREE.Object3D();
 
 
-SKY.Environment.prototype.fall = function( direction )
+SKY.Environment.prototype.update = function( direction )
+{
+	this.updateAsteroids( direction );
+	this.updateFireables( direction );
+};
+
+
+SKY.Environment.prototype.updateAsteroids = function( direction )
 {
 	var i = 0,
 		object = null,
-		fall = null,
-		position = null;
-
+		position = null,
+		side = new THREE.Vector3().crossVectors( SKY.App.airplane.direction, SKY.App.airplane.up );
 	/*
 	 *	Objects shall fall with different speed 
 	 *	otherwise it looks like the plane is going up
@@ -46,26 +52,18 @@ SKY.Environment.prototype.fall = function( direction )
 
 		if ( object.position.length() < 5000 )
 		{
-			fall = direction.clone();
-			object.position.add( fall );
+			object.position.add( direction.clone() );
 		}
 		else
 		{
 			/* Make asteroids appear in front of the ship */
 			position = direction.clone().normalize().negate().setLength( 3000 * Math.random() + 2000 );
-			position.applyMatrix4( new THREE.Matrix4().makeRotationY( THREE.Math.degToRad( 180 * Math.random() - 90 ) ) );
+			position.add( side.clone().setLength( Math.random() * 5000 - 2500 ) );
 			position.add( SKY.App.airplane.up.clone().setLength( Math.random() * 5000 - 2500 ) );
 			object.position = position;
 		}
 	}
 
-};
-
-
-SKY.Environment.prototype.update = function( direction )
-{
-	this.fall( direction );
-	this.updateFireables( direction );
 };
 
 
