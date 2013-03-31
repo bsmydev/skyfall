@@ -1,7 +1,7 @@
 SKY.Missile = function( parameters )
 {
-	var geometry = new THREE.CubeGeometry( 10, 10, 50 ),
-		material = new THREE.MeshBasicMaterial(),
+	var geometry = new THREE.SphereGeometry( 5, 5, 5 ),
+		material = new THREE.MeshBasicMaterial( { color : 0xBFECFF } ),
 		parameters = parameters || {};
 
 	THREE.Mesh.call( this, geometry, material );

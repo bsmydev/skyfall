@@ -46,15 +46,16 @@ SKY.Environment.prototype.fall = function( direction )
 
 		if ( object.position.length() < 5000 )
 		{
-			fall = direction.clone().add( ( new THREE.Vector3( 0, - object.weight, 0 ) ).multiplyScalar( SKY.Clock.speed() ) );
+			fall = direction.clone();
 			object.position.add( fall );
 		}
 		else
 		{
-			position = direction.clone().normalize().negate().setLength( 5000 * Math.random() );
+			/* Make asteroids appear in front of the ship */
+			position = direction.clone().normalize().negate().setLength( 3000 * Math.random() + 2000 );
 			position.applyMatrix4( new THREE.Matrix4().makeRotationY( THREE.Math.degToRad( 180 * Math.random() - 90 ) ) );
-			position.y += 500;
-			object.position = position.clone();
+			position.add( SKY.App.airplane.up.clone().setLength( Math.random() * 5000 - 2500 ) );
+			object.position = position;
 		}
 	}
 

@@ -1,6 +1,6 @@
 SKY.Airplane = function( parameters )
 {
-	var geometry = SKY.Geometries.plane,
+	var geometry = SKY.Geometries.ship,
 		material = new THREE.MeshPhongMaterial( { color : 0xffffff } ),
 		parameters = parameters || {};
 
@@ -9,6 +9,48 @@ SKY.Airplane = function( parameters )
 
 	this.camera.position = new THREE.Vector3( 0, 25, 150 );
 	
+	this.speed = 10;
+
+	/* Speed related values */
+	this._minSpeed = 10.0;
+	this._maxSpeed = 30.0;
+
+	this._acceleration = 4.0;
+	this._deceleration = 4.0;
+
+	this._accelerating = false;
+	this._decelerating = false;
+
+	/*
+	*	Lights
+	*/
+	var self = this;
+
+	( function(){
+
+		var geometry = new THREE.SphereGeometry( 4, 10, 10 ),
+			material = new THREE.MeshBasicMaterial( { color : 0xBFECFF } ),
+
+			mesh = new THREE.Mesh( geometry, material );
+
+		mesh.position.z = 35;
+		self.add( mesh );
+
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.x = -31;
+		mesh.position.y = -11;
+		mesh.position.z = 25;
+		mesh.scale = new THREE.Vector3( 0.5, 0.5, 0.5 );
+		self.add( mesh );
+
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.x = 31;
+		mesh.position.y = -11;
+		mesh.position.z = 25;
+		mesh.scale = new THREE.Vector3( 0.5, 0.5, 0.5 );
+		self.add( mesh );
+
+	} )();
 
 	/*
 	 *	Collision box
@@ -23,18 +65,23 @@ SKY.Airplane = function( parameters )
 
 	this.collidables = parameters.collidables !== undefined ? parameters.collidables : [];
 
-	this.speed = 10;
+	this.lastShot = 0;
+	this.shootDelay = 100;
 
-	/* Speed related values */
-	this._minSpeed = 10.0;
-	this._maxSpeed = 30.0;
+	/*
+	 *	Shield
+	 */
 
-	this._acceleration = 4.0;
-	this._deceleration = 4.0;
+	( function() {
 
-	this._accelerating = false;
-	this._decelerating = false;
+		var geometry = new THREE.SphereGeometry( 50, 20, 20 ),
+			material = new THREE.MeshBasicMaterial( { color : 0xBFECFF, transparent : true, opacity : 0.0 } ),
+			shield = new THREE.Mesh( geometry, material );
 
+		self.shield = shield;
+		self.add( shield );
+
+	} )();
 };
 
 
@@ -43,7 +90,8 @@ SKY.Airplane.prototype = new THREE.Mesh();
 
 SKY.Airplane.prototype.animate = function()
 {
-	var speed = this.speed;
+	var self = this,
+		speed = this.speed;
 
 	/* Rotate airplane */
 	this.updateControls();
@@ -52,7 +100,10 @@ SKY.Airplane.prototype.animate = function()
 	/* Fire objects */
 	if ( SKY.Controls.SPACE )
 	{
-		this.fire();
+		if ( SKY.Clock.current() - this.lastShot > this.shootDelay )
+		{
+			this.fire();
+		}
 	}
 
 	if ( SKY.Controls.MAJ )
@@ -130,16 +181,30 @@ SKY.Airplane.prototype.animate = function()
 	this.collisionBox.detectCollision( this.collidables, function ( intersection )
 	{
 		console.log( intersection );
+		self.shield.material.opacity = 0.5;
+		self.shield.material.needsUpdate = true;
 	} );
+	this.updateShield();
 
 };
 
 SKY.Airplane.prototype.fire = function()
 {
+	this.lastShot = SKY.Clock.current();
 	SKY.App.environment.fireables.add( new SKY.Missile( {
 
 		speed : this.speed,
 		direction : this.direction.clone().negate()
 
 	} ) );
+};
+
+
+SKY.Airplane.prototype.updateShield = function()
+{
+	if ( this.shield.material.opacity > 0 )
+	{
+		this.shield.material.opacity -= 0.01;
+		this.shield.material.needsUpdate = true;
+	}
 };

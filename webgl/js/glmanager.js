@@ -16,7 +16,11 @@ SKY.GLManager = ( function()
 			{
 				url : 'models/plane.js',
 				label : 'plane'
-			} 
+			},
+			{
+				url : 'models/ship.js',
+				label : 'ship'
+			}
 		],
 
 		_loadModels = function( callback )
@@ -95,6 +99,8 @@ SKY.GLManager = ( function()
         	SKY.App.environment = _environment;
 
         	_airplane = new SKY.Airplane( { collidables : _environment.asteroids.children } );
+        	SKY.App.airplane = _airplane;
+
         	_airplane.lookAt( new THREE.Vector3( 0, 0, -1 ) );
         	_scene.add( _airplane );
 			_camera = _airplane.camera;
