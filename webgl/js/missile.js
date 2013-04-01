@@ -40,14 +40,14 @@ SKY.Missile = function( parameters )
 	*	Collision line
 	*/
 	geometry = new THREE.Geometry();
-	geometry.vertices.push( new THREE.Vector3( 0, 0, -60 ) );
-	geometry.vertices.push( new THREE.Vector3( 0, 0, 60 ) );
+	geometry.vertices.push( new THREE.Vector3( 0, 0, -30 ) );
+	geometry.vertices.push( new THREE.Vector3( 0, 0, 30 ) );
 
 	material = new THREE.LineBasicMaterial( { color : 0xff0000 } );     
 
 	this.collisionTool = new THREE.Line( geometry, material );
-	SKY.Collidable.call( this.collisionTool );
-	this.add( this.collisionLine );
+	SKY.Collidable.call( this, { detector : this.collisionTool } );
+	this.add( this.collisionTool );
 
 };
 

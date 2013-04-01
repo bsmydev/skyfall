@@ -1,6 +1,31 @@
-SKY.Collidable = function()
+SKY.Collidable = function( parameters )
 {
-	this.perimeter = 200;
+	var parameters = parameters || {},
+		detector = parameters.detector,
+		perimeter = parameters.perimeter !== undefined ? parameters.perimeter : 200,
+
+		/*
+		 *	Filter collidables that are close to detector
+		 */ 
+		filter = function( objects ) {
+
+			var filtered = [],
+				i = 0,
+				objectPosition = null,
+				detectorPosition = detector.matrixWorld.getPosition().clone();
+
+			for ( ; i < objects.length; i++ )
+			{
+				objectPosition = objects[ i ].matrixWorld.getPosition().clone();
+				if ( objectPosition.sub( detectorPosition ).length() < perimeter )
+				{
+					filtered.push( objects[ i ] );
+				}
+			}
+
+			return filtered;
+
+		};
 
 	this.detectCollision = function( collidables, callback )
 	{
@@ -9,22 +34,13 @@ SKY.Collidable = function()
 			raycaster = null,
 			vertex = null,
 			position = this.matrixWorld.getPosition(),
-			objects = [];
+			objects = filter( collidables );
 
-		/* Filter collidables to closer perimeter */
-		for ( ; i < collidables.length; i++ )
+
+		for ( i = 0; i < detector.geometry.vertices.length; i++ )
 		{
-			if ( collidables[ i ].position.length() < this.perimeter )
-			{
-				objects.push( collidables[ i ] );
-			}
-		}
-
-
-		for ( i = 0; i < this.geometry.vertices.length; i++ )
-		{
-			vertex = this.geometry.vertices[ i ].clone();
-			vertex.applyMatrix4( this.matrixWorld );
+			vertex = detector.geometry.vertices[ i ].clone();
+			vertex.applyMatrix4( detector.matrixWorld );
 			vertex.sub( position );
 			raycaster = new THREE.Raycaster( position, vertex.clone() );
 

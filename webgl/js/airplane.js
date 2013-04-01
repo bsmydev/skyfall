@@ -60,7 +60,8 @@ SKY.Airplane = function( parameters )
 	this.collisionBox = new THREE.Mesh( geometry, material );
 
 	this.collisionBox.position = new THREE.Vector3( 0, 15, 0 );
-	SKY.Collidable.call( this.collisionBox );
+
+	SKY.Collidable.call( this, { detector : this.collisionBox } );
 	this.add( this.collisionBox );
 
 	this.collidables = parameters.collidables !== undefined ? parameters.collidables : [];
@@ -118,7 +119,7 @@ SKY.Airplane.prototype.animate = function()
 		SKY.blur = false;
 	}	
 
-	/*if ( SKY.Controls.ALT )
+	if ( SKY.Controls.ALT )
 	{
 		SKY.Clock.setSpeed( 0.25 );
 		SKY.blur = true;
@@ -127,7 +128,7 @@ SKY.Airplane.prototype.animate = function()
 	{
 		SKY.Clock.setSpeed( 1 );
 		SKY.blur = false;
-	}*/
+	}
 
 
 	
@@ -178,7 +179,7 @@ SKY.Airplane.prototype.animate = function()
 
 
 	/* Detect collisions */
-	this.collisionBox.detectCollision( this.collidables, function ( intersection )
+	this.detectCollision( this.collidables, function ( intersection )
 	{
 		console.log( intersection );
 		self.shield.material.opacity = 0.5;
