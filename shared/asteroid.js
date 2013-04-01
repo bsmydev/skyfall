@@ -1,10 +1,10 @@
-SKY.Meteorite = function()
+SKY.Asteroid = function()
 {
-	var geometry = SKY.Geometries.meteorite,
+	var geometry = SKY.Geometries.asteroid,
 		material = new THREE.MeshPhongMaterial( { color : 0xffffff } );
 
 	THREE.Mesh.call( this, geometry, material );
 };
 
 
-SKY.Meteorite.prototype = new THREE.Mesh();
+SKY.Asteroid.prototype = new THREE.Mesh();

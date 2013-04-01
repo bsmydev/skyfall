@@ -14,7 +14,7 @@ SKY.Environment = function()
 	this.add( this.asteroids );
 	for ( ; i < 1000; i++ )
 	{
-		object = new SKY.Meteorite();
+		object = new SKY.Asteroid();
 		object.position = new THREE.Vector3( 10000 * Math.random() - 5000, 10000 * Math.random(), 10000 * Math.random() - 5000 );
 		object.weight = Math.floor( 1 + 10 * Math.random() );
 		this.asteroids.add( object );

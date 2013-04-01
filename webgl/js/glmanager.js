@@ -10,15 +10,15 @@ SKY.GLManager = ( function()
 		_loader = new THREE.JSONLoader(),
 		_models = [ 
 			{
-				url : 'models/rock.js',
-				label : 'meteorite'
+				url : 'shared/models/rock.js',
+				label : 'asteroid'
 			},
 			{
-				url : 'models/plane.js',
+				url : 'shared/models/plane.js',
 				label : 'plane'
 			},
 			{
-				url : 'models/ship.js',
+				url : 'shared/models/ship.js',
 				label : 'ship'
 			}
 		],

@@ -1,0 +1,4 @@
+Game = function()
+{
+	
+}

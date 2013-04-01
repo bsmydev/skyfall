@@ -94,48 +94,49 @@ SKY.Airplane.prototype.animate = function()
 	var self = this,
 		speed = this.speed;
 
-	/* Rotate airplane */
-	this.updateControls();
-
-
-	/* Fire objects */
-	if ( SKY.Controls.SPACE )
+	if ( SKY.CLIENT )
 	{
-		if ( SKY.Clock.current() - this.lastShot > this.shootDelay )
+		/* Rotate airplane */
+		this.updateControls();
+
+
+		/* Fire objects */
+		if ( SKY.Controls.SPACE )
 		{
-			this.fire();
+			if ( SKY.Clock.current() - this.lastShot > this.shootDelay )
+			{
+				this.fire();
+			}
+		}
+
+		if ( SKY.Controls.MAJ )
+		{
+			this._accelerating = true;
+			SKY.blur = true;
+		}
+		else
+		{
+			this._accelerating = false;
+			this._decelerating = true;
+			SKY.blur = false;
+		}	
+
+		if ( SKY.Controls.ALT )
+		{
+			SKY.Clock.setSpeed( 0.25 );
+			SKY.blur = true;
+		}
+		else
+		{
+			SKY.Clock.setSpeed( 1 );
+			SKY.blur = false;
 		}
 	}
-
-	if ( SKY.Controls.MAJ )
-	{
-		this._accelerating = true;
-		SKY.blur = true;
-	}
-	else
-	{
-		this._accelerating = false;
-		this._decelerating = true;
-		SKY.blur = false;
-	}	
-
-	if ( SKY.Controls.ALT )
-	{
-		SKY.Clock.setSpeed( 0.25 );
-		SKY.blur = true;
-	}
-	else
-	{
-		SKY.Clock.setSpeed( 1 );
-		SKY.blur = false;
-	}
-
-
+	
 	
 	/*
 	 *	Calculate airplane speed
 	 */
-
 
 	if ( this._accelerating )
 	{
@@ -185,6 +186,7 @@ SKY.Airplane.prototype.animate = function()
 		self.shield.material.opacity = 0.5;
 		self.shield.material.needsUpdate = true;
 	} );
+
 	this.updateShield();
 
 };

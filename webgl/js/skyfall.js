@@ -1,5 +1,7 @@
 var SKY = SKY || {};
 
+SKY.CLIENT = true;
+
 SKY.App = ( function ()
 {
 

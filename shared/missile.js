@@ -94,4 +94,7 @@ SKY.Missile.prototype.fragmentShader = [
 ].join( '\n' );
 
 
-SKY.Missile.prototype.texture = THREE.ImageUtils.loadTexture( 'img/particle.png' );
+if ( SKY.CLIENT )
+{
+	SKY.Missile.prototype.texture = THREE.ImageUtils.loadTexture( 'img/particle.png' );
+}
