@@ -9,6 +9,7 @@ SKY.FireableObject = function( parameters )
 	this.maxSpeed = parameters.maxSpeed !== undefined ? parameters.maxSpeed : 20;
 
 	this.lookAt( this.direction );
+
 	this.update = function()
 	{
 		if ( this.speed < this.maxSpeed )
@@ -17,7 +18,6 @@ SKY.FireableObject = function( parameters )
 		}
 		this.position.add( this.direction.clone().multiplyScalar( this.speed * SKY.Clock.speed() ) );
 	};
-
-	SKY.Collidable.call( this );
+	
 };
 

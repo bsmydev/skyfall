@@ -193,6 +193,7 @@ SKY.Airplane.prototype.fire = function()
 	this.lastShot = SKY.Clock.current();
 	SKY.App.environment.fireables.add( new SKY.Missile( {
 
+		color : 0xBFECFF,
 		speed : this.speed,
 		direction : this.direction.clone().negate()
 

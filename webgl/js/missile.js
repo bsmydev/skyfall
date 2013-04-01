@@ -1,13 +1,39 @@
 SKY.Missile = function( parameters )
 {
-	var geometry = new THREE.SphereGeometry( 5, 5, 5 ),
-		material = new THREE.MeshBasicMaterial( { color : 0xBFECFF } ),
-		parameters = parameters || {};
+	var parameters = parameters || {},
+		geometry = new THREE.Geometry(),
+		material = new THREE.ShaderMaterial( { 
 
-	THREE.Mesh.call( this, geometry, material );
+			uniforms : {
+
+				uColor : { type : 'c', value : new THREE.Color().setHex( parameters.color !== undefined ? parameters.color : 0xffffff ) },
+				uSize : { type : 'f', value : 50.0 },
+				texture : { type : 't', value : this.texture }
+
+			},
+
+			attributes : {
+
+				aOpacity : { type : 'f', value : [] }
+
+			},
+			vertexShader : this.vertexShader,
+			fragmentShader : this.fragmentShader,
+			depthTest : true,
+			transparent : true
+
+		 } );
+
+	geometry.vertices.push( new THREE.Vector3() );
+	material.attributes.aOpacity.value.push( 1.0 );
+
+	THREE.ParticleSystem.call( this, geometry, material );
+
+	/*
+	*	Make it fireable
+	*/
 
 	parameters.speed = 30;
-
 	SKY.FireableObject.call( this, parameters );
 
 	/*
@@ -19,10 +45,53 @@ SKY.Missile = function( parameters )
 
 	material = new THREE.LineBasicMaterial( { color : 0xff0000 } );     
 
-	this.collisionLine = new THREE.Line( geometry, material );
-	SKY.Collidable.call( this.collisionLine );
+	this.collisionTool = new THREE.Line( geometry, material );
+	SKY.Collidable.call( this.collisionTool );
 	this.add( this.collisionLine );
 
 };
 
-SKY.Missile.prototype = new THREE.Mesh();
+SKY.Missile.prototype = new THREE.ParticleSystem();
+
+
+SKY.Missile.prototype.vertexShader = [
+
+	'uniform float uSize;',
+	// 'attribute vec3 aColor;',
+	'attribute float aOpacity;',
+	
+	// 'varying vec3 vColor;',
+	'varying float vOpacity;',
+
+	'void main() {',
+
+		'vOpacity = aOpacity;',
+
+		'vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );',
+
+		'gl_PointSize = uSize * ( 300.0 / length( mvPosition.xyz ) );',
+		'gl_Position = projectionMatrix * mvPosition;',
+
+	'}'
+
+].join( '\n' );
+
+
+SKY.Missile.prototype.fragmentShader = [
+
+	'uniform vec3 uColor;',
+	'uniform sampler2D texture;',
+
+	'varying float vOpacity;',
+
+	'void main() {',
+
+		'vec4 noise = texture2D( texture, gl_PointCoord );',
+		'gl_FragColor = vec4( uColor, noise.a );',
+
+	'}'
+
+].join( '\n' );
+
+
+SKY.Missile.prototype.texture = THREE.ImageUtils.loadTexture( 'img/particle.png' );

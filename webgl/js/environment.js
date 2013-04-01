@@ -25,6 +25,7 @@ SKY.Environment = function()
 
 };
 
+
 SKY.Environment.prototype = new THREE.Object3D();
 
 
@@ -81,7 +82,7 @@ SKY.Environment.prototype.updateFireables = function( direction )
 		if ( object.position.length() < 5000 )
 		{
 			object.position.add( direction.clone() );
-			object.detectCollision( this.asteroids.children, function ( intersection )
+			object.collisionTool.detectCollision( this.asteroids.children, function ( intersection )
 			{
 				self.asteroids.remove( intersection.object );
 				self.fireables.remove( object );
