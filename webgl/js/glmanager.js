@@ -91,8 +91,8 @@ SKY.GLManager = ( function()
         	_light.position = new THREE.Vector3( 0, 1, 1 );
         	_scene.add( _light );
 
-        	_skybox = new SKY.Skybox();
-        	_scene.add( _skybox );
+        	// _skybox = new SKY.Skybox();
+        	// _scene.add( _skybox );
 
         	_environment = new SKY.Environment();
         	_scene.add( _environment );

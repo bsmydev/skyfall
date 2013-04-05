@@ -9,6 +9,7 @@ SKY.Environment = function()
 		i = 0,
 		self = this;
 	
+	// this.add( new SKY.Smoke() );
 
 	this.asteroids = new THREE.Object3D();
 	this.add( this.asteroids );
