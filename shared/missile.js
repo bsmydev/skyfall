@@ -36,6 +36,8 @@ SKY.Missile = function( parameters )
 	parameters.speed = 30;
 	SKY.FireableObject.call( this, parameters );
 
+	this.position = parameters.position !== undefined ? parameters.position : new THREE.Vector3();
+
 	/*
 	*	Collision line
 	*/

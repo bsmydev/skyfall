@@ -9,7 +9,7 @@ SKY.Environment = function()
 		i = 0,
 		self = this;
 	
-	// this.add( new SKY.Smoke() );
+	//this.add( new SKY.Smoke() );
 
 	this.asteroids = new THREE.Object3D();
 	this.add( this.asteroids );
@@ -54,7 +54,7 @@ SKY.Environment.prototype.updateAsteroids = function( direction )
 
 		if ( object.position.length() < 5000 )
 		{
-			object.position.add( direction.clone() );
+			//object.position.add( direction.clone() );
 		}
 		else
 		{
@@ -69,7 +69,7 @@ SKY.Environment.prototype.updateAsteroids = function( direction )
 };
 
 
-SKY.Environment.prototype.updateFireables = function( direction )
+SKY.Environment.prototype.updateFireables = function()
 {
 	var i = 0,
 		object = null,
@@ -82,7 +82,6 @@ SKY.Environment.prototype.updateFireables = function( direction )
 
 		if ( object.position.length() < 5000 )
 		{
-			object.position.add( direction.clone() );
 			object.detectCollision( this.asteroids.children, function ( intersection )
 			{
 				self.asteroids.remove( intersection.object );

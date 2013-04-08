@@ -7,8 +7,8 @@ SKY.Airplane = function( parameters )
 	THREE.Mesh.call( this, geometry, material );
 	SKY.FlyableObject.call( this );
 
-	this.camera.position = new THREE.Vector3( 0, 25, 150 );
-	
+	this.camera.position = new THREE.Vector3( 0, 25, -150 );
+	this.camera.lookAt( new THREE.Vector3( 0, 0, -1 ) );
 	this.speed = 10;
 
 	/* Speed related values */
@@ -164,10 +164,15 @@ SKY.Airplane.prototype.animate = function()
 	}
 
 	/*
+	*	Update ship position
+	*/
+	this.position.add( this.direction.clone().multiplyScalar( this.speed * SKY.Clock.speed() ) );
+	this.lookAt( this.position.clone().add( this.direction.clone() ) );
+	/*
 	 *	Update camera position according to speed
 	 */
 
-	this.camera.position.z = this.speed * 150 / this._minSpeed;
+	this.camera.position.z = this.speed * -150 / this._minSpeed;
 
 
 	/* 
@@ -198,7 +203,8 @@ SKY.Airplane.prototype.fire = function()
 
 		color : 0xBFECFF,
 		speed : this.speed,
-		direction : this.direction.clone().negate()
+		direction : this.direction.clone(),
+		position : this.position.clone()
 
 	} ) );
 };
