@@ -26,29 +26,59 @@ SKY.Airplane = function( parameters )
 	*/
 	var self = this;
 
+	// ( function(){
+
+	// 	var geometry = new THREE.SphereGeometry( 4, 10, 10 ),
+	// 		material = new THREE.MeshBasicMaterial( { color : 0xBFECFF } ),
+
+	// 		mesh = new THREE.Mesh( geometry, material );
+
+	// 	mesh.position.z = 35;
+	// 	self.add( mesh );
+
+	// 	mesh = new THREE.Mesh( geometry, material );
+	// 	mesh.position.x = -31;
+	// 	mesh.position.y = -11;
+	// 	mesh.position.z = 25;
+	// 	mesh.scale = new THREE.Vector3( 0.5, 0.5, 0.5 );
+	// 	self.add( mesh );
+
+	// 	mesh = new THREE.Mesh( geometry, material );
+	// 	mesh.position.x = 31;
+	// 	mesh.position.y = -11;
+	// 	mesh.position.z = 25;
+	// 	mesh.scale = new THREE.Vector3( 0.5, 0.5, 0.5 );
+	// 	self.add( mesh );
+
+	// } )();
+
 	( function(){
 
-		var geometry = new THREE.SphereGeometry( 4, 10, 10 ),
-			material = new THREE.MeshBasicMaterial( { color : 0xBFECFF } ),
+		var trail = new SKY.Trail( {
 
-			mesh = new THREE.Mesh( geometry, material );
+			color : 0xBFECFF
 
-		mesh.position.z = 35;
-		self.add( mesh );
+		} );
 
-		mesh = new THREE.Mesh( geometry, material );
-		mesh.position.x = -31;
-		mesh.position.y = -11;
-		mesh.position.z = 25;
-		mesh.scale = new THREE.Vector3( 0.5, 0.5, 0.5 );
-		self.add( mesh );
+		trail.position.z = -55;
+		self.add( trail );
 
-		mesh = new THREE.Mesh( geometry, material );
-		mesh.position.x = 31;
-		mesh.position.y = -11;
-		mesh.position.z = 25;
-		mesh.scale = new THREE.Vector3( 0.5, 0.5, 0.5 );
-		self.add( mesh );
+		self.trail = trail;
+
+	} )();
+
+	/*
+	 *	Shield
+	 */
+
+	( function() {
+
+		var geometry = new THREE.SphereGeometry( 50, 20, 20 ),
+			material = new THREE.MeshBasicMaterial( { color : 0xBFECFF, transparent : true, opacity : 0.0 } ),
+			shield = new THREE.Mesh( geometry, material );
+
+		self.shield = shield;
+		self.add( shield );
 
 	} )();
 
@@ -69,20 +99,6 @@ SKY.Airplane = function( parameters )
 	this.lastShot = 0;
 	this.shootDelay = 100;
 
-	/*
-	 *	Shield
-	 */
-
-	( function() {
-
-		var geometry = new THREE.SphereGeometry( 50, 20, 20 ),
-			material = new THREE.MeshBasicMaterial( { color : 0xBFECFF, transparent : true, opacity : 0.0 } ),
-			shield = new THREE.Mesh( geometry, material );
-
-		self.shield = shield;
-		self.add( shield );
-
-	} )();
 };
 
 
@@ -166,7 +182,8 @@ SKY.Airplane.prototype.animate = function()
 	/*
 	*	Update ship position
 	*/
-	this.position.add( this.direction.clone().multiplyScalar( this.speed * SKY.Clock.speed() ) );
+	var delta = this.direction.clone().multiplyScalar( this.speed * SKY.Clock.speed() );
+	this.position.add( delta );
 	this.lookAt( this.position.clone().add( this.direction.clone() ) );
 	/*
 	 *	Update camera position according to speed
@@ -193,6 +210,7 @@ SKY.Airplane.prototype.animate = function()
 	} );
 
 	this.updateShield();
+	this.trail.update( delta );
 
 };
 

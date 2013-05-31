@@ -6,7 +6,7 @@ SKY.Smoke = function()
 
 			uniforms : {
 
-				uSize : { type : "f", value : 500 },
+				uSize : { type : "f", value : 100 },
 				texture : { type : "t", value : this.texture },
 				uColor : { type : "c", value : new THREE.Color().setHex( 0xFF0000 ) }
 
@@ -25,10 +25,32 @@ SKY.Smoke = function()
 	material.depthTest = true;
 	material.depthWrite = false;
 
-	geometry.vertices.push( new THREE.Vector3( -50, 0, 0 ), 
-		new THREE.Vector3( 50, 0, 0 ),
-		new THREE.Vector3( 0, 0, -50 ),
-		new THREE.Vector3( 0, 0, 50 )  );
+	( function(){
+
+		var i = 0,
+			count = 1000,
+			position = null,
+			axis = null,
+			matrix = new THREE.Matrix4();
+
+		for ( ; i < count; i++ )
+		{
+			position = new THREE.Vector3( 0, 0, 7000 );
+			axis = new THREE.Vector3( Math.random() * 2 - 1, Math.random() * 2 - 1, 0 );
+			
+			matrix.identity();
+			matrix.rotateByAxis( axis, Math.random() * 180 );
+			position.applyMatrix4( matrix );
+			//position.applyAxisAngle( axis, Math.random() * Math.PI );
+			geometry.vertices.push( position );
+		}
+
+	} )();
+
+	// geometry.vertices.push( new THREE.Vector3( -50, 0, 0 ), 
+	// 	new THREE.Vector3( 50, 0, 0 ),
+	// 	new THREE.Vector3( 0, 0, -50 ),
+	// 	new THREE.Vector3( 0, 0, 50 )  );
 
 	THREE.ParticleSystem.call( this, geometry, material );
 };
@@ -68,4 +90,5 @@ SKY.Smoke.prototype.fragmentShader = [
 if ( SKY.CLIENT )
 {
 	SKY.Smoke.prototype.texture = THREE.ImageUtils.loadTexture( "img/smoke_noise.png" );
+	//SKY.Smoke.prototype.texture = THREE.ImageUtils.loadTexture( "img/particle.png" );
 }

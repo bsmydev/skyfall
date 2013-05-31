@@ -18,7 +18,7 @@ SKY.GLManager = ( function()
 				label : 'plane'
 			},
 			{
-				url : 'shared/models/ship.js',
+				url : 'shared/models/ship_inverted.js',
 				label : 'ship'
 			}
 		],
@@ -89,6 +89,9 @@ SKY.GLManager = ( function()
 
         	_light = new THREE.DirectionalLight( 0xffffff, 0.5 );
         	_light.position = new THREE.Vector3( 0, 1, 1 );
+        	_scene.add( _light );
+
+        	_light = new THREE.AmbientLight( 0x202020 );
         	_scene.add( _light );
 
         	// _skybox = new SKY.Skybox();
