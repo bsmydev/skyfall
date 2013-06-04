@@ -1,4 +1,4 @@
-SKY.Airplane = function( parameters )
+SKY.Spaceship = function( parameters )
 {
 	var geometry = SKY.Geometries.ship,
 		material = new THREE.MeshPhongMaterial( { color : 0xffffff } ),
@@ -22,35 +22,9 @@ SKY.Airplane = function( parameters )
 	this._decelerating = false;
 
 	/*
-	*	Lights
+	*	Trails
 	*/
 	var self = this;
-
-	// ( function(){
-
-	// 	var geometry = new THREE.SphereGeometry( 4, 10, 10 ),
-	// 		material = new THREE.MeshBasicMaterial( { color : 0xBFECFF } ),
-
-	// 		mesh = new THREE.Mesh( geometry, material );
-
-	// 	mesh.position.z = 35;
-	// 	self.add( mesh );
-
-	// 	mesh = new THREE.Mesh( geometry, material );
-	// 	mesh.position.x = -31;
-	// 	mesh.position.y = -11;
-	// 	mesh.position.z = 25;
-	// 	mesh.scale = new THREE.Vector3( 0.5, 0.5, 0.5 );
-	// 	self.add( mesh );
-
-	// 	mesh = new THREE.Mesh( geometry, material );
-	// 	mesh.position.x = 31;
-	// 	mesh.position.y = -11;
-	// 	mesh.position.z = 25;
-	// 	mesh.scale = new THREE.Vector3( 0.5, 0.5, 0.5 );
-	// 	self.add( mesh );
-
-	// } )();
 
 	( function(){
 
@@ -102,10 +76,10 @@ SKY.Airplane = function( parameters )
 };
 
 
-SKY.Airplane.prototype = new THREE.Mesh();
+SKY.Spaceship.prototype = new THREE.Mesh();
 
 
-SKY.Airplane.prototype.animate = function()
+SKY.Spaceship.prototype.animate = function()
 {
 	var self = this,
 		speed = this.speed;
@@ -182,8 +156,8 @@ SKY.Airplane.prototype.animate = function()
 	/*
 	*	Update ship position
 	*/
-	var delta = this.direction.clone().multiplyScalar( this.speed * SKY.Clock.speed() );
-	this.position.add( delta );
+	var movement = this.direction.clone().multiplyScalar( this.speed * SKY.Clock.speed() );
+	this.position.add( movement );
 	this.lookAt( this.position.clone().add( this.direction.clone() ) );
 	/*
 	 *	Update camera position according to speed
@@ -210,11 +184,11 @@ SKY.Airplane.prototype.animate = function()
 	} );
 
 	this.updateShield();
-	this.trail.update( delta );
+	this.trail.update( movement );
 
 };
 
-SKY.Airplane.prototype.fire = function()
+SKY.Spaceship.prototype.fire = function()
 {
 	this.lastShot = SKY.Clock.current();
 	SKY.App.environment.fireables.add( new SKY.Missile( {
@@ -228,7 +202,7 @@ SKY.Airplane.prototype.fire = function()
 };
 
 
-SKY.Airplane.prototype.updateShield = function()
+SKY.Spaceship.prototype.updateShield = function()
 {
 	if ( this.shield.material.opacity > 0 )
 	{

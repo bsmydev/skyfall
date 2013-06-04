@@ -30,10 +30,10 @@ SKY.Environment = function()
 SKY.Environment.prototype = new THREE.Object3D();
 
 
-SKY.Environment.prototype.update = function( direction )
+SKY.Environment.prototype.update = function()
 {
-	this.updateAsteroids( direction );
-	this.updateFireables( direction );
+	//this.updateAsteroids( direction );
+	this.updateFireables();
 };
 
 

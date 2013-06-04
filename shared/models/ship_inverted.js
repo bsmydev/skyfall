@@ -15,7 +15,7 @@
 
     "scale" : 1.000000,
 
-    "materials": [	{
+    "materials": [{
 	"DbgColor" : 15658734,
 	"DbgIndex" : 0,
 	"DbgName" : "shipA_mat_s_1024_C.tga.001",

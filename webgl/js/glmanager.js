@@ -101,7 +101,7 @@ SKY.GLManager = ( function()
         	_scene.add( _environment );
         	SKY.App.environment = _environment;
 
-        	_airplane = new SKY.Airplane( { collidables : _environment.asteroids.children } );
+        	_airplane = new SKY.Spaceship( { collidables : _environment.asteroids.children } );
         	SKY.App.airplane = _airplane;
 
         	_airplane.lookAt( new THREE.Vector3( 0, 0, -1 ) );

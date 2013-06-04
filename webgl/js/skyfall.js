@@ -9,7 +9,8 @@ SKY.App = ( function ()
 
 		start : function()
 		{
-			SKY.GLManager.start();
+			//SKY.GLManager.start();
+			new SKY.GameManager();
 		}
 
 	}

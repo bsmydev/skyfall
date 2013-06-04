@@ -36,13 +36,15 @@ SKY.Trail = function( parameters ){
 		for ( ; i < nbParticles; i++ )
 		{
 
-			geometry.vertices.push( new THREE.Vector3( 0, 0, - ( trailLength - i * ( trailLength / nbParticles ) ) ) );
+			geometry.vertices.push( new THREE.Vector3( 0, 0, - ( i * ( trailLength / nbParticles ) ) ) );
 			material.attributes.aDelta.value.push( new THREE.Vector3() );
 
 		}
 
 	} )();
 	
+	/*  */
+	this.lastMovement = new THREE.Vector3();
 
 	THREE.ParticleSystem.call( this, geometry, material );
 
@@ -52,9 +54,13 @@ SKY.Trail = function( parameters ){
 SKY.Trail.prototype = new THREE.ParticleSystem();
 
 
-SKY.Trail.prototype.update = function( delta ){
+SKY.Trail.prototype.update = function( movement ){
 
-	var self = this;
+	var self = this,
+		delta = movement.clone().sub( this.lastMovement );
+
+	/* Keep track of delta */
+	this.lastMovement = movement;
 
 	if ( this.time === undefined )
 	{
@@ -70,11 +76,14 @@ SKY.Trail.prototype.update = function( delta ){
 			length = values.length,
 			i = 0;
 
+		delta.applyMatrix4( self.matrixWorld ).negate();
 		delta.z = 0;
 		delta.normalize();
 
 		for ( ; i < length; i++ )
 		{
+			var oPosition = self.geometry.vertices[ i ];
+			//values[ i ].add( values[ i ].clone().sub( oPosition ).multiplyScalar( 0.75 ) );
 			values[ i ].add( delta.clone().multiplyScalar( i / length ) );
 			//values[ i ].setLength( i / length / 50 );
 		}
@@ -84,6 +93,8 @@ SKY.Trail.prototype.update = function( delta ){
 
 	this.material.attributes.aDelta.needsUpdate = true;
 	
+
+
 };
 
 
@@ -103,7 +114,7 @@ SKY.Trail.prototype.vertexShader = [
 		'/* Update particle position */',
 		'vec3 newPosition = vec3( position );',
 		
-		//'newPosition.y = aDelta.y;',
+		'newPosition += aDelta;',
 		//'newPosition.z = - mod( ( uTime + abs( position.z ) ), uTrailLength );',
 
 		//'vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );',
