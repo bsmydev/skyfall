@@ -2,15 +2,25 @@ SKY.Spaceship = function( parameters )
 {
 	var geometry = SKY.Geometries.ship,
 		material = new THREE.MeshPhongMaterial( { color : 0xffffff } ),
+		mesh = new THREE.Mesh( geometry, material ),
 		parameters = parameters || {};
 
-	THREE.Mesh.call( this, geometry, material );
-	SKY.FlyableObject.call( this );
+	THREE.Object3D.call( this );
+	this.mesh = mesh;
+	mesh.position = new THREE.Vector3( 0, -50, 0 );
+	this.add( mesh );
+
+	SKY.FlyableObject.call( mesh );
+
+	this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 100000);
+	this.add( this.camera );
+
 
 	this.camera.position = new THREE.Vector3( 0, 25, -150 );
 	this.camera.lookAt( new THREE.Vector3( 0, 0, -1 ) );
 	this.speed = 10;
 
+	this.direction = new THREE.Vector3( 0, 0, -1 );
 	/* Speed related values */
 	this._minSpeed = 10.0;
 	this._maxSpeed = 30.0;
@@ -21,40 +31,42 @@ SKY.Spaceship = function( parameters )
 	this._accelerating = false;
 	this._decelerating = false;
 
+	 var self = this;
+
 	/*
 	*	Trails
 	*/
-	var self = this;
+	
 
-	( function(){
+	// ( function(){
 
-		var trail = new SKY.Trail( {
+	// 	var trail = new SKY.Trail( {
 
-			color : 0xBFECFF
+	// 		color : 0xBFECFF
 
-		} );
+	// 	} );
 
-		trail.position.z = -55;
-		self.add( trail );
+	// 	trail.position.z = -55;
+	// 	self.add( trail );
 
-		self.trail = trail;
+	// 	self.trail = trail;
 
-	} )();
+	// } )();
 
 	/*
 	 *	Shield
 	 */
 
-	( function() {
+	// ( function() {
 
-		var geometry = new THREE.SphereGeometry( 50, 20, 20 ),
-			material = new THREE.MeshBasicMaterial( { color : 0xBFECFF, transparent : true, opacity : 0.0 } ),
-			shield = new THREE.Mesh( geometry, material );
+	// 	var geometry = new THREE.SphereGeometry( 50, 20, 20 ),
+	// 		material = new THREE.MeshBasicMaterial( { color : 0xBFECFF, transparent : true, opacity : 0.0 } ),
+	// 		shield = new THREE.Mesh( geometry, material );
 
-		self.shield = shield;
-		self.add( shield );
+	// 	self.shield = shield;
+	// 	self.add( shield );
 
-	} )();
+	// } )();
 
 	/*
 	 *	Collision box
@@ -87,7 +99,7 @@ SKY.Spaceship.prototype.animate = function()
 	if ( SKY.CLIENT )
 	{
 		/* Rotate airplane */
-		this.updateControls();
+		this.mesh.updateControls();
 
 
 		/* Fire objects */
@@ -158,6 +170,9 @@ SKY.Spaceship.prototype.animate = function()
 	*/
 	var movement = this.direction.clone().multiplyScalar( this.speed * SKY.Clock.speed() );
 	this.position.add( movement );
+
+
+
 	this.lookAt( this.position.clone().add( this.direction.clone() ) );
 	/*
 	 *	Update camera position according to speed
@@ -183,8 +198,8 @@ SKY.Spaceship.prototype.animate = function()
 		self.shield.material.needsUpdate = true;
 	} );
 
-	this.updateShield();
-	this.trail.update( movement );
+	// this.updateShield();
+	// this.trail.update( movement );
 
 };
 
@@ -196,7 +211,7 @@ SKY.Spaceship.prototype.fire = function()
 		color : 0xBFECFF,
 		speed : this.speed,
 		direction : this.direction.clone(),
-		position : this.position.clone()
+		position : this.mesh.matrixWorld.getPosition().clone()
 
 	} ) );
 };

@@ -14,7 +14,9 @@ SKY.SceneManager.prototype.init = function(){
 	this.scene = new THREE.Scene();
 
 	this.environment = new SKY.Environment();
+	SKY.App.environment = this.environment;
 	this.scene.add( this.environment );
+
 
 	this.spaceship = new SKY.Spaceship();
 	this.scene.add( this.spaceship );

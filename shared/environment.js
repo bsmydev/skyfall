@@ -96,3 +96,8 @@ SKY.Environment.prototype.updateFireables = function()
 		}
 	}
 };
+
+/*
+*	Static values
+*/
+SKY.Environment.direction = new THREE.Vector3( 0, 0, -1 );
