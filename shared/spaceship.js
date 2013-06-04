@@ -38,20 +38,20 @@ SKY.Spaceship = function( parameters )
 	*/
 	
 
-	// ( function(){
+	( function(){
 
-	// 	var trail = new SKY.Trail( {
+		var trail = new SKY.Trail( {
 
-	// 		color : 0xBFECFF
+			color : 0xBFECFF
 
-	// 	} );
+		} );
 
-	// 	trail.position.z = -55;
-	// 	self.add( trail );
+		trail.position.z = -55;
+		self.mesh.add( trail );
 
-	// 	self.trail = trail;
+		self.mesh.trail = trail;
 
-	// } )();
+	} )();
 
 	/*
 	 *	Shield
@@ -199,7 +199,7 @@ SKY.Spaceship.prototype.animate = function()
 	} );
 
 	// this.updateShield();
-	// this.trail.update( movement );
+	// this.mesh.trail.update( this.mesh.movement );
 
 };
 

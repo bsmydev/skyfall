@@ -40,6 +40,7 @@ SKY.FlyableObject = function() {
 
 		var direction = SKY.Environment.direction,
 			position = this.position,
+			oPosition = position.clone(),
 			rMatrix = new THREE.Matrix4();
 
 		rMatrix.makeRotationAxis( direction, degrees * Math.PI / 180 );
@@ -48,6 +49,7 @@ SKY.FlyableObject = function() {
 		this.up.applyMatrix4( rMatrix );
 		this.lookAt( this.position.clone().add( this.direction.clone() ) );
 
+		this.movement = oPosition.sub( position );
 	}
 
 	this.updateControls = function()

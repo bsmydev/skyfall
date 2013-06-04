@@ -57,7 +57,8 @@ SKY.Trail.prototype = new THREE.ParticleSystem();
 SKY.Trail.prototype.update = function( movement ){
 
 	var self = this,
-		delta = movement.clone().sub( this.lastMovement );
+		// delta = movement.clone().sub( this.lastMovement );
+		delta = movement.clone();
 
 	/* Keep track of delta */
 	this.lastMovement = movement;
