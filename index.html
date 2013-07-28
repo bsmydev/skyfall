@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+
+    <!-- External -->
+	<script src="js/ext/three.js"></script>
+
+    <script src="js/ext/postprocessing/EffectComposer.js"></script>
+    <script src="js/ext/postprocessing/RenderPass.js"></script>
+    <script src="js/ext/postprocessing/BloomPass.js"></script>
+    <script src="js/ext/postprocessing/ShaderPass.js"></script>
+    <script src="js/ext/postprocessing/MaskPass.js"></script>
+    <script src="js/ext/postprocessing/SavePass.js"></script>
+
+    <script src="js/ext/shaders/CopyShader.js"></script>
+    <script src="js/ext/shaders/BlendShader.js"></script>
+    <script src="js/ext/shaders/ConvolutionShader.js"></script>
+
+    <script src="js/skyfall.js"></script>
+
+    <script src="js/clock.js"></script>
+    <script src="js/glmanager.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/skybox.js"></script>
+    <script src="js/environment.js"></script>
+    <script src="js/meteorite.js"></script>
+    <script src="js/airplane.js"></script>
+    <script src="js/flyableobject.js"></script>
+    <script src="js/fireableobject.js"></script>
+    <script src="js/missile.js"></script>
+    <script src="js/collidable.js"></script>
+    <script src="js/controls.js"></script>
+
+
+	<script>    
+
+        window.onload = function()
+        {
+            SKY.App.start();
+        };
+
+    </script>
+
+</head>
+    
+<body style="margin : 0px;">
+
+    <canvas id="canvas"></canvas>
+
+</body>
+
+</html>
