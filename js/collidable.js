@@ -59,5 +59,8 @@ SKY.Collidable = function( parameters )
 			}
 			
 		}
-	}	
+	}
+
+	/* Hide detector */
+	detector.traverse( function ( object ) { object.visible = false; } );
 };
