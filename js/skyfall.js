@@ -8,8 +8,14 @@ SKY.App = ( function ()
 		start : function()
 		{
 			SKY.GLManager.start();
+		},
+
+		started : function(){
+
+			$( '#splash' ).hide();
+
 		}
 
-	}
+	};
 
 } )();
