@@ -116,6 +116,8 @@ SKY.GLManager = ( function()
 			SKY.Clock.start();
 
         	_animate();
+
+        	SKY.App.started();
 		},
 
 		configure : function()

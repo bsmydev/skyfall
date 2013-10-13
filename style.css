@@ -1,0 +1,33 @@
+body {
+
+	position : absolute;
+
+	height : 100%;
+	width : 100%;
+
+	margin : 0;
+
+	font-family : Arial;
+	color : #CCC;
+
+}
+
+#splash {
+
+	display : table;
+
+	height : 100%;
+	width : 100%;
+
+	text-align : center;
+
+}
+
+#title {
+
+	display : table-cell;
+	vertical-align : middle;
+
+	font-size : 5em;
+
+}
