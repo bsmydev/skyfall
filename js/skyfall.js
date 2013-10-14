@@ -12,7 +12,7 @@ SKY.App = ( function ()
 
 		started : function(){
 
-			$( '#splash' ).hide();
+			$( '#home' ).hide();
 
 		}
 
