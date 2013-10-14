@@ -6,7 +6,8 @@ SKY.Controls = ( function()
 		RIGHT_KEY = 39,
 		SPACE_KEY = 32,
 		ALT_KEY = 18,
-		MAJ_KEY = 16;
+		MAJ_KEY = 16,
+		ESC_KEY = 27;
 
 	return {
 
@@ -38,6 +39,8 @@ SKY.Controls = ( function()
 					case SPACE_KEY : self.SPACE = true; break;
 					case ALT_KEY   : self.ALT = true; break;
 					case MAJ_KEY   : self.MAJ = true; break;
+					case ESC_KEY   : SKY.GLManager.pause(); break;
+
 				}
 
 			};

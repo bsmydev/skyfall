@@ -1,6 +1,7 @@
 SKY.GLManager = ( function()
 {
-	var _scene = null,
+	var _paused = false,
+		_scene = null,
 		_camera = null,
 		_skybox = null,
 		_airplane = null,
@@ -21,6 +22,15 @@ SKY.GLManager = ( function()
 				url : 'models/ship.js',
 				label : 'ship'
 			}
+		],
+		_textures = [
+
+			{
+				method : 'loadTextureCube',
+				url : [ 'img/nx.png', 'img/px.png','img/py.png','img/ny.png','img/pz.png','img/nz.png' ],
+				label : 'skybox'
+			}
+
 		],
 
 		_loadModels = function( callback )
@@ -45,6 +55,29 @@ SKY.GLManager = ( function()
 			} );
 		},
 
+		_loadTextures = function( callback )
+		{
+			var toLoad = _textures.shift();
+
+			new THREE.ImageUtils[ toLoad.method ]( toLoad.url, undefined, function( texture ){
+
+				if ( SKY.Textures === undefined ){ SKY.Textures = {}; }
+				SKY.Textures[ toLoad.label ] = texture;
+
+				if ( _textures.length > 0 )
+				{
+					_loadTextures( callback )
+				}
+				else
+				{
+					callback();
+				}
+
+			} );
+
+
+		},
+
 		_animate = function()
 		{
 			var i = 0,
@@ -52,14 +85,15 @@ SKY.GLManager = ( function()
 
 			SKY.Clock.tick();
 
-			_airplane.animate();
-			
-			_environment.update( _airplane.direction.clone().multiplyScalar( _airplane.speed * SKY.Clock.speed() ) );
-
-
-			_renderer.render();
+			if ( !_paused )
+			{
+				_airplane.animate();
+				_environment.update( _airplane.direction.clone().multiplyScalar( _airplane.speed * SKY.Clock.speed() ) );
+				_renderer.render();
+			}			
 
 			requestAnimationFrame( _animate );
+			
 		};
 
 	return {
@@ -75,6 +109,15 @@ SKY.GLManager = ( function()
 			if ( _models.length > 0 )
 			{
 				_loadModels( this.start );
+				return;
+			}
+
+			/*
+			 * Load textures synchronously
+			 */
+			if ( _textures.length > 0 )
+			{
+				_loadTextures( SKY.GLManager.start );
 				return;
 			}
 
@@ -117,6 +160,9 @@ SKY.GLManager = ( function()
 
         	_animate();
 
+        	/* Pause game right away */
+        	_paused = true;
+
         	SKY.App.started();
 		},
 
@@ -124,6 +170,12 @@ SKY.GLManager = ( function()
 		{
 
 		},
+
+		pause : function() {
+
+			_paused = !_paused;
+
+		}
 
 	}
 
