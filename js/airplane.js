@@ -144,10 +144,6 @@ SKY.Airplane.prototype.animate = function()
 		{
 			this.speed = speed;
 		}
-		else
-		{
-			this._accelerating = false;
-		}
 	}
 	else if ( this._decelerating )
 	{
