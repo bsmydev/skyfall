@@ -1,0 +1,13 @@
+{
+	"name": "skyfall",
+	"alias" : "sky",
+	"version": "0.0.1",
+	"devDependencies": {
+
+		"grunt": "*",
+		"grunt-contrib-less" : "*",
+		"grunt-contrib-copy" : "*"
+
+	}
+
+}
