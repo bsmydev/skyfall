@@ -34,7 +34,7 @@ module.exports = function( grunt ) {
 
 			development : {
 
-				files : [ jsFiles ]
+				files : [ jsFiles.skyfall, jsFiles.three ]
 
 			}
 
@@ -67,19 +67,26 @@ module.exports = function( grunt ) {
 
 			}
 
+		},
+
+		jshint : {
+
+			beforeConcat : { files : jsFiles.skyfall }
+
 		}
 
 	} );
 
 	grunt.loadNpmTasks( 'grunt-contrib-less' );
 	grunt.loadNpmTasks( 'grunt-contrib-copy' );
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 
 	/*
 	*	The concat module auto register to the grunt taskslist
 	*/
 	concat( grunt );
 
-	grunt.registerTask( 'default', [ 'copy', 'less', 'concat', 'copy:deploy' ] );
+	grunt.registerTask( 'default', [ 'copy', 'less', 'jshint', 'concat', 'copy:deploy' ] );
 
 
 };

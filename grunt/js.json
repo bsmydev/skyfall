@@ -1,39 +1,45 @@
 { 
+	"skyfall" : {
 
-	"<%=dest%>/scripts/<%=pkg.name%>.js" : [
+		"<%=dest%>/scripts/<%=pkg.name%>.js" : [
 
-		"<%=src%>/scripts/skyfall.js",
-	    "<%=src%>/scripts/home.js",
-	    "<%=src%>/scripts/clock.js",
-	    "<%=src%>/scripts/glmanager.js",
-	    "<%=src%>/scripts/renderer.js",
-	    "<%=src%>/scripts/skybox.js",
-	    "<%=src%>/scripts/environment.js",
-	    "<%=src%>/scripts/meteorite.js",
-	    "<%=src%>/scripts/airplane.js",
-	    "<%=src%>/scripts/flyableobject.js",
-	    "<%=src%>/scripts/fireableobject.js",
-	    "<%=src%>/scripts/missile.js",
-	    "<%=src%>/scripts/collidable.js",
-	    "<%=src%>/scripts/controls.js"
+			"<%=src%>/scripts/skyfall.js",
+			"<%=src%>/scripts/home.js",
+			"<%=src%>/scripts/clock.js",
+			"<%=src%>/scripts/glmanager.js",
+			"<%=src%>/scripts/renderer.js",
+			"<%=src%>/scripts/skybox.js",
+			"<%=src%>/scripts/environment.js",
+			"<%=src%>/scripts/meteorite.js",
+			"<%=src%>/scripts/airplane.js",
+			"<%=src%>/scripts/flyableobject.js",
+			"<%=src%>/scripts/fireableobject.js",
+			"<%=src%>/scripts/missile.js",
+			"<%=src%>/scripts/collidable.js",
+			"<%=src%>/scripts/controls.js"
 
-	],
+		]
 
-	"<%=dest%>/scripts/three.js" : [
+	},
+	"three" : {
 
-		"<%=src%>/scripts/ext/three.js",
+		"<%=dest%>/scripts/three.js" : [
 
-	    "<%=src%>/scripts/ext/postprocessing/EffectComposer.js",
-	    "<%=src%>/scripts/ext/postprocessing/RenderPass.js",
-	    "<%=src%>/scripts/ext/postprocessing/BloomPass.js",
-	    "<%=src%>/scripts/ext/postprocessing/ShaderPass.js",
-	    "<%=src%>/scripts/ext/postprocessing/MaskPass.js",
-	    "<%=src%>/scripts/ext/postprocessing/SavePass.js",
+			"<%=src%>/scripts/ext/three.js",
 
-	    "<%=src%>/scripts/ext/shaders/CopyShader.js",
-	    "<%=src%>/scripts/ext/shaders/BlendShader.js",
-	    "<%=src%>/scripts/ext/shaders/ConvolutionShader.js"
+			"<%=src%>/scripts/ext/postprocessing/EffectComposer.js",
+			"<%=src%>/scripts/ext/postprocessing/RenderPass.js",
+			"<%=src%>/scripts/ext/postprocessing/BloomPass.js",
+			"<%=src%>/scripts/ext/postprocessing/ShaderPass.js",
+			"<%=src%>/scripts/ext/postprocessing/MaskPass.js",
+			"<%=src%>/scripts/ext/postprocessing/SavePass.js",
 
-	]	
+			"<%=src%>/scripts/ext/shaders/CopyShader.js",
+			"<%=src%>/scripts/ext/shaders/BlendShader.js",
+			"<%=src%>/scripts/ext/shaders/ConvolutionShader.js"
+
+		]
+
+	}	
 
 }

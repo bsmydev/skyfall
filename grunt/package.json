@@ -6,7 +6,8 @@
 
 		"grunt": "*",
 		"grunt-contrib-less" : "*",
-		"grunt-contrib-copy" : "*"
+		"grunt-contrib-copy" : "*",
+		"grunt-contrib-jshint" : "*"
 
 	}
 
