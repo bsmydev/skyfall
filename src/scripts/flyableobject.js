@@ -67,6 +67,6 @@ SKY.FlyableObject = function() {
 		this.pitchInertia = this.pitchInertia * 0.975;
 		this.rollInertia = this.rollInertia * 0.975;
 
-	}
+	};
 
 };

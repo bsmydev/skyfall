@@ -1,19 +1,19 @@
 SKY.Skybox = function()
 {
 	var texture = SKY.Textures.skybox,
-		shader = THREE.ShaderLib[ "cube" ];
+		shader = THREE.ShaderLib.cube;
 
-	shader.uniforms[ "tCube" ].value = texture;
+	shader.uniforms.tCube.value = texture;
 
 	THREE.Mesh.call( this,
 		new THREE.CubeGeometry( 10000, 10000, 10000 ),
 		new THREE.ShaderMaterial( {
 
-		    uniforms        : shader.uniforms,
-		    fragmentShader  : shader.fragmentShader,
-		    vertexShader    : shader.vertexShader,
-		    depthWrite      : false,
-		    side: THREE.BackSide
+			uniforms        : shader.uniforms,
+			fragmentShader  : shader.fragmentShader,
+			vertexShader    : shader.vertexShader,
+			depthWrite      : false,
+			side: THREE.BackSide
 
 		} )
 	);

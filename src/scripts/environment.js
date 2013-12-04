@@ -72,22 +72,24 @@ SKY.Environment.prototype.updateFireables = function( direction )
 {
 	var i = 0,
 		object = null,
-		self = this;
+		intersection = null;
 
 	for ( ; i < this.fireables.children.length; i++ )
 	{
+		intersection = null;
 		object = this.fireables.children[ i ];
 		object.update();
 
 		if ( object.position.length() < 5000 )
 		{
 			object.position.add( direction.clone() );
-			object.detectCollision( this.asteroids.children, function ( intersection )
+			intersection = object.detectCollision( this.asteroids.children );
+			if ( intersection !== null )
 			{
-				self.asteroids.remove( intersection.object );
-				self.fireables.remove( object );
+				this.asteroids.remove( intersection.object );
+				this.fireables.remove( object );
 				i--;
-			} );
+			}
 		}
 		else
 		{

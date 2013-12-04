@@ -2,8 +2,8 @@ SKY.Renderer = function ( scene, camera )
 {
 	this._renderer = new THREE.WebGLRenderer( {
 
-	    canvas : document.getElementById( "canvas" ),
-	    antialias : true,
+		canvas : document.getElementById( "canvas" ),
+		antialias : true,
 
 	} );
 	this._renderer.autoClear = false;
@@ -30,7 +30,7 @@ SKY.Renderer = function ( scene, camera )
 	this._classicChain = [ this._renderPass, this._copyPass ];
 
 	this._composer = new THREE.EffectComposer( this._renderer );
-}
+};
 
 SKY.Renderer.prototype = {
 

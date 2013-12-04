@@ -1,8 +1,9 @@
 SKY.Airplane = function( parameters )
 {
+	parameters = parameters || {};
+	
 	var geometry = SKY.Geometries.ship,
-		material = new THREE.MeshPhongMaterial( { color : 0xffffff } ),
-		parameters = parameters || {};
+		material = new THREE.MeshPhongMaterial( { color : 0xffffff } );
 
 	THREE.Mesh.call( this, geometry, material );
 	SKY.FlyableObject.call( this );
@@ -92,7 +93,8 @@ SKY.Airplane.prototype = new THREE.Mesh();
 SKY.Airplane.prototype.animate = function()
 {
 	var self = this,
-		speed = this.speed;
+		speed = this.speed,
+		intersection = null;
 
 	/* Rotate airplane */
 	this.updateControls();
@@ -168,19 +170,20 @@ SKY.Airplane.prototype.animate = function()
 	/* 
 	 *	Update renderer according to speed
 	 */
-	 if ( this._accelerating || this._decelerating )
-	 {
-	 	SKY.blur = true;
-	 }
+	if ( this._accelerating || this._decelerating )
+	{
+		SKY.blur = true;
+	}
 
 
 	/* Detect collisions */
-	this.detectCollision( this.collidables, function ( intersection )
+	intersection = this.detectCollision( this.collidables );
+	if ( intersection !== null )
 	{
 		console.log( intersection );
-		self.shield.material.opacity = 0.5;
-		self.shield.material.needsUpdate = true;
-	} );
+		this.shield.material.opacity = 0.5;
+		this.shield.material.needsUpdate = true;
+	}
 	this.updateShield();
 
 };

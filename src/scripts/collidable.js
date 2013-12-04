@@ -1,7 +1,8 @@
 SKY.Collidable = function( parameters )
 {
-	var parameters = parameters || {},
-		detector = parameters.detector,
+	parameters = parameters || {};
+
+	var detector = parameters.detector,
 		perimeter = parameters.perimeter !== undefined ? parameters.perimeter : 200,
 
 		/*
@@ -52,14 +53,15 @@ SKY.Collidable = function( parameters )
 				{
 					if ( intersections[ j ].distance < vertex.length() )
 					{
-						callback( intersections[ j ] );
-						return;
+						return intersections[ j ];
 					}
 				}	
 			}
 			
 		}
-	}
+
+		return null;
+	};
 
 	/* Hide detector */
 	detector.traverse( function ( object ) { object.visible = false; } );

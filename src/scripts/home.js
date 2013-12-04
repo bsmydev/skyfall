@@ -10,8 +10,14 @@ SKY.Home = function(){
 
 };
 
-SKY.Home.prototype.message = function(){
+SKY.Home.prototype.toggle = function( bool ){
 
-	this.el.$(  )
+	this.el.toggle( bool );
+
+};
+
+SKY.Home.prototype.message = function( text ){
+
+	this.el.find( '.message' ).html( text );
 
 };

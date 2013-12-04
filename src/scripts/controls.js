@@ -72,6 +72,6 @@ SKY.Controls = ( function()
 			document.onkeyup = function( event ){};
 		}
 
-	}
+	};
 
 } )();

@@ -66,7 +66,7 @@ SKY.GLManager = ( function()
 
 				if ( _textures.length > 0 )
 				{
-					_loadTextures( callback )
+					_loadTextures( callback );
 				}
 				else
 				{
@@ -108,6 +108,7 @@ SKY.GLManager = ( function()
 			 */
 			if ( _models.length > 0 )
 			{
+				SKY.Home.message( "loading models" );
 				_loadModels( this.start );
 				return;
 			}
@@ -117,6 +118,7 @@ SKY.GLManager = ( function()
 			 */
 			if ( _textures.length > 0 )
 			{
+				SKY.Home.message( "loading textures" );
 				_loadTextures( SKY.GLManager.start );
 				return;
 			}
@@ -125,45 +127,48 @@ SKY.GLManager = ( function()
 			/* 
 			*	Setup scene
 			*/
+			SKY.Home.message( "setting up scene" );
 
-        	_scene = new THREE.Scene();
-        	SKY.App.scene = _scene;
+			_scene = new THREE.Scene();
+			SKY.App.scene = _scene;
 
 
-        	_light = new THREE.DirectionalLight( 0xffffff, 0.5 );
-        	_light.position = new THREE.Vector3( 0, 1, 1 );
-        	_scene.add( _light );
+			_light = new THREE.DirectionalLight( 0xffffff, 0.5 );
+			_light.position = new THREE.Vector3( 0, 1, 1 );
+			_scene.add( _light );
 
-        	_skybox = new SKY.Skybox();
-        	_scene.add( _skybox );
+			_skybox = new SKY.Skybox();
+			_scene.add( _skybox );
 
-        	_environment = new SKY.Environment();
-        	_scene.add( _environment );
-        	SKY.App.environment = _environment;
+			_environment = new SKY.Environment();
+			_scene.add( _environment );
+			SKY.App.environment = _environment;
 
-        	_airplane = new SKY.Airplane( { collidables : _environment.asteroids.children } );
-        	SKY.App.airplane = _airplane;
+			_airplane = new SKY.Airplane( { collidables : _environment.asteroids.children } );
+			SKY.App.airplane = _airplane;
 
-        	_airplane.lookAt( new THREE.Vector3( 0, 0, -1 ) );
-        	_scene.add( _airplane );
+			_airplane.lookAt( new THREE.Vector3( 0, 0, -1 ) );
+			_scene.add( _airplane );
 			_camera = _airplane.camera;
 
-        	SKY.Controls.enable();
+			SKY.Controls.enable();
 
-        	/*
-        	*	Setup rendering
-        	*/
-        	_renderer = new SKY.Renderer( _scene, _camera );
+			/*
+			*	Setup rendering
+			*/
+			_renderer = new SKY.Renderer( _scene, _camera );
 
 			/* Start clock */
 			SKY.Clock.start();
 
-        	_animate();
+			_animate();
 
-        	/* Pause game right away */
-        	_paused = true;
+			SKY.Home.message( "ready" );
 
-        	SKY.App.started();
+			/* Pause game right away */
+			_paused = true;
+
+			SKY.App.started();
 		},
 
 		configure : function()
@@ -174,9 +179,10 @@ SKY.GLManager = ( function()
 		pause : function() {
 
 			_paused = !_paused;
+			SKY.Home.toggle( _paused );
 
 		}
 
-	}
+	};
 
 } )();

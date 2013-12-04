@@ -1,7 +1,8 @@
 SKY.Missile = function( parameters )
 {
-	var parameters = parameters || {},
-		geometry = new THREE.Geometry(),
+	parameters = parameters || {};
+
+	var geometry = new THREE.Geometry(),
 		material = new THREE.ShaderMaterial( { 
 
 			uniforms : {
@@ -22,7 +23,7 @@ SKY.Missile = function( parameters )
 			depthTest : true,
 			transparent : true
 
-		 } );
+		} );
 
 	geometry.vertices.push( new THREE.Vector3() );
 	material.attributes.aOpacity.value.push( 1.0 );

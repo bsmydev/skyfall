@@ -1,6 +1,6 @@
 SKY.FireableObject = function( parameters )
 {
-	var parameters = parameters || {};
+	parameters = parameters || {};
 
 	this.speed = parameters.speed !== undefined ? parameters.speed : 15;
 

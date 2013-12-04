@@ -41,6 +41,6 @@ SKY.Clock = ( function ()
 			return ellapsed * baseSpeed * speed;
 		}
 
-	}
+	};
 
 } )();
